@@ -55,13 +55,13 @@ public class Principal {
     }
 
     private void listarSeriesBuscadas() {
-        dadosSeries.forEach(System.out::println);
+        dadosSeries.forEach(s-> this.exibiDadosSerieFormatado(s));
     }
 
     private void buscarSerieWeb() {
         DadosSerie dados = getDadosSerie();
         dadosSeries.add(dados);
-        System.out.println(dados);
+        exibiDadosSerieFormatado(dados);
     }
 
     private DadosSerie getDadosSerie() {
@@ -82,5 +82,17 @@ public class Principal {
             temporadas.add(dadosTemporada);
         }
         temporadas.forEach(System.out::println);
+    }
+
+    private void exibiDadosSerieFormatado(DadosSerie s){
+        System.out.printf("""
+                Série: %s
+                Total de temporadas: %d
+                Avaliação geral: %s
+                Gênero: %s
+                Atores: %s
+                Sinopse: %s
+                Link imagem poster: %s%n
+                """, s.titulo(), s.totalTemporadas(), s.avaliacao(), s.genero(), s.atores(), s.sinopse(), s.poster());
     }
 }
