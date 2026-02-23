@@ -1,9 +1,15 @@
 package br.com.alura.screenmatch;
 
+import br.com.alura.screenmatch.model.traducao.Traducao;
 import br.com.alura.screenmatch.principal.Principal;
+import br.com.alura.screenmatch.service.ConsumoApi;
+import br.com.alura.screenmatch.service.ConverteDados;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 @SpringBootApplication
 public class ScreenmatchApplication implements CommandLineRunner {
@@ -16,5 +22,6 @@ public class ScreenmatchApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
         Principal principal = new Principal();
         principal.exibeMenu();
+
     }
 }

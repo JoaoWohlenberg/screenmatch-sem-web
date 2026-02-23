@@ -17,7 +17,6 @@ public class Principal {
     private final String API_KEY = "&apikey=3caf2323";
     private List<DadosSerie> dadosSeries = new ArrayList<>();
 
-
     public void exibeMenu() {
         var opcao = -1;
         while (opcao != 0){

@@ -1,8 +1,16 @@
 package br.com.alura.screenmatch.model;
 
+import br.com.alura.screenmatch.model.traducao.Traducao;
+import br.com.alura.screenmatch.service.ConsumoApi;
+import br.com.alura.screenmatch.service.ConverteDados;
+
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.OptionalDouble;
 
 public class Serie {
+    private ConsumoApi consumo = new ConsumoApi();
+    private ConverteDados conversor = new ConverteDados();
     private String titulo;
     private Integer totalTemporadas;
     private Double avaliacao;
@@ -10,6 +18,8 @@ public class Serie {
     private String atores;
     private String poster;
     private String sinopse;
+    private String ENDERECO_API_TRADUCAO = "https://api.mymemory.translated.net/get?q=";
+    private String PAR_LIGUAGEM_TRADUCAO = "en|pt";
 
     public Serie (DadosSerie dadosSerie){
         this.titulo = dadosSerie.titulo();
@@ -18,7 +28,18 @@ public class Serie {
         this.genero = Categoria.fromString(dadosSerie.genero().split(",")[0].trim());
         this.atores = dadosSerie.atores();
         this.poster = dadosSerie.poster();
-        this.sinopse = dadosSerie.sinopse();
+
+        //traduzindo a sinopse
+        String query = URLEncoder.encode(dadosSerie.sinopse(), StandardCharsets.UTF_8);
+        String langPair = URLEncoder.encode(PAR_LIGUAGEM_TRADUCAO, StandardCharsets.UTF_8);
+        String url = ENDERECO_API_TRADUCAO
+                + query
+                + "&langpair="
+                + langPair;
+        String json = consumo.obterDados(url);
+        Traducao sinopseTraduzida = conversor.obterDados(json, Traducao.class);
+        this.sinopse = sinopseTraduzida.traducao().textoTraduzido();
+
 
     }
 
