@@ -21,4 +21,44 @@ public class Serie {
         this.sinopse = dadosSerie.sinopse();
 
     }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public Integer getTotalTemporadas() {
+        return totalTemporadas;
+    }
+
+    public Double getAvaliacao() {
+        return avaliacao;
+    }
+
+    public Categoria getGenero() {
+        return genero;
+    }
+
+    public String getAtores() {
+        return atores;
+    }
+
+    public String getPoster() {
+        return poster;
+    }
+
+    public String getSinopse() {
+        return sinopse;
+    }
+
+    @Override
+    public String toString() {
+        return
+                "genero=" + genero +
+                ", titulo='" + titulo + '\'' +
+                ", totalTemporadas=" + totalTemporadas +
+                ", avaliacao=" + avaliacao +
+                ", atores='" + atores + '\'' +
+                ", poster='" + poster + '\'' +
+                ", sinopse='" + sinopse + '\'';
+    }
 }
