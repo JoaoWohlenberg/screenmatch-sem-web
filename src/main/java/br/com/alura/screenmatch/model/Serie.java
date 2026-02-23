@@ -52,13 +52,14 @@ public class Serie {
 
     @Override
     public String toString() {
-        return
-                "genero=" + genero +
-                ", titulo='" + titulo + '\'' +
-                ", totalTemporadas=" + totalTemporadas +
-                ", avaliacao=" + avaliacao +
-                ", atores='" + atores + '\'' +
-                ", poster='" + poster + '\'' +
-                ", sinopse='" + sinopse + '\'';
+        return String.format("""
+        Gênero: %s
+        Título: %s
+        Total de temporadas: %d
+        Avaliação geral: %.1f
+        Atores: %s
+        Sinopse: %s
+        Link imagem poster: %s%n""", genero.toString(), titulo, totalTemporadas, avaliacao, atores, sinopse, poster);
+
     }
 }
