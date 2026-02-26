@@ -3,23 +3,42 @@ package br.com.alura.screenmatch.model;
 import br.com.alura.screenmatch.model.traducao.Traducao;
 import br.com.alura.screenmatch.service.ConsumoApi;
 import br.com.alura.screenmatch.service.ConverteDados;
+import jakarta.persistence.*;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.OptionalDouble;
 
+@Entity
+@Table(name = "series")
 public class Serie {
+    @Transient
     private ConsumoApi consumo = new ConsumoApi();
+    @Transient
     private ConverteDados conversor = new ConverteDados();
+    @Transient
+    private String ENDERECO_API_TRADUCAO = "https://api.mymemory.translated.net/get?q=";
+    @Transient
+    private String PAR_LIGUAGEM_TRADUCAO = "en|pt";
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+    @Column(unique = true)
     private String titulo;
     private Integer totalTemporadas;
     private Double avaliacao;
+    @Enumerated(EnumType.STRING)
     private Categoria genero;
     private String atores;
     private String poster;
     private String sinopse;
-    private String ENDERECO_API_TRADUCAO = "https://api.mymemory.translated.net/get?q=";
-    private String PAR_LIGUAGEM_TRADUCAO = "en|pt";
+
+    @Transient
+    private List<Episodio> episodios = new ArrayList<>();
+
 
     public Serie (DadosSerie dadosSerie){
         this.titulo = dadosSerie.titulo();
@@ -39,8 +58,14 @@ public class Serie {
         String json = consumo.obterDados(url);
         Traducao sinopseTraduzida = conversor.obterDados(json, Traducao.class);
         this.sinopse = sinopseTraduzida.traducao().textoTraduzido();
+    }
 
+    public List<Episodio> getEpisodios() {
+        return episodios;
+    }
 
+    public long getId() {
+        return id;
     }
 
     public String getTitulo() {
