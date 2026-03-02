@@ -5,8 +5,6 @@ import br.com.alura.screenmatch.repository.SerieResository;
 import br.com.alura.screenmatch.service.ConsumoApi;
 import br.com.alura.screenmatch.service.ConverteDados;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -37,6 +35,7 @@ public class Principal {
                 5 - Buscar séries por ator
                 6 - Top 5 séries
                 7 - Buscar séries por categoria
+                8 - Filtrar séries
                 0 - Sair                                 
                 """;
 
@@ -65,6 +64,9 @@ public class Principal {
                     break;
                 case 7:
                     buscarSeriePorCategoria();
+                    break;
+                case 8:
+                    filtrarSeriesPorTemporadaEAvaliacao();
                     break;
                 case 0:
                     System.out.println("Saindo...");
@@ -178,11 +180,23 @@ public class Principal {
     }
 
     private void buscarSeriePorCategoria() {
-        System.out.println("Deseja buscar séries de que cayegoria/gênero?");
+        System.out.println("Deseja buscar séries de que categoria/gênero?");
         var nomeGenero = leitura.nextLine();
         Categoria categoria = Categoria.fromPortugues(nomeGenero);
         List<Serie> seriesPorCategoria = repositorio.findByGenero(categoria);
         System.out.println("Séries da categoria " + nomeGenero);
         seriesPorCategoria.forEach(System.out::println);
+    }
+
+    private void filtrarSeriesPorTemporadaEAvaliacao() {
+        System.out.println("Filtrar séries até quantas temporadas? ");
+        Integer numeroMaximoDeTemporadas = leitura.nextInt();
+        leitura.nextLine();
+        System.out.println("Com avaliação a partir de que valor? ");
+        Double avaliacaoMinima = leitura.nextDouble();
+
+        List<Serie> series = repositorio.findByTotalTemporadasLessThanEqualAndAvaliacaoGreaterThanEqual(numeroMaximoDeTemporadas, avaliacaoMinima);
+        System.out.println("**** Séries Encontradas ****");
+        series.forEach(s-> System.out.printf("Nome: %s | Número de temporadas: %d | Avaliação: %.2f%n",s.getTitulo(), s.getTotalTemporadas(), s.getAvaliacao()));
     }
 }
